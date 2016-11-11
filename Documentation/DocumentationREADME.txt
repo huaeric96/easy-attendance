@@ -1,0 +1,1 @@
+This folder is for holding documentation related files and information.
