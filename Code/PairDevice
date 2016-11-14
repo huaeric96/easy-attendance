@@ -1,0 +1,73 @@
+import java.io.IOException;
+import java.util.Vector;
+import javax.bluetooth.*;
+import java.util.ArrayList;
+
+public class PairDevice {
+    
+    public static final Vector devicesDiscovered = new Vector();
+    public ArrayList<BlueToothDevice> _btDeviceList = new ArrayList<>();
+    
+    public PairDevice(){
+        
+    }
+    
+    public void lookForDevices(){
+        final Object inquiryCompletedEvent = new Object();
+        
+        devicesDiscovered.clear();      //clears devices
+        
+        DiscoveryListener listener = new DiscoveryListener(){
+            
+            @Override
+            public void deviceDiscovered(RemoteDevice btDevice, DeviceClass cod){
+                //System.out.println("Device " + btDevice.getBluetoothAddress() + " found");
+                devicesDiscovered.addElement(btDevice);
+                try{
+                    //System.out.println("     name " + btDevice.getFriendlyName(false));
+                    BlueToothDevice btd = new BlueToothDevice(btDevice.getFriendlyName(false), btDevice.getBluetoothAddress(), _btDeviceList.size());
+                    _btDeviceList.add(btd);
+                }catch(IOException e){
+                    System.out.println("Can't get Device Name");
+                }
+            }
+            
+            @Override
+             public void inquiryCompleted(int discType){
+                System.out.println("Device Inquiry completed!");
+                synchronized(inquiryCompletedEvent){
+                    inquiryCompletedEvent.notifyAll();
+                }
+            }
+            
+            @Override
+            public void serviceSearchCompleted(int transID, int respCode){
+                
+            }
+
+            @Override
+            public void servicesDiscovered(int transID, ServiceRecord[] servRecord){
+                
+            }
+        };
+        
+        synchronized(inquiryCompletedEvent){
+            try{
+                boolean started = LocalDevice.getLocalDevice().getDiscoveryAgent().startInquiry(DiscoveryAgent.GIAC, listener);
+                if (started) {
+                    System.out.println("wait for device inquiry to complete...");
+                    inquiryCompletedEvent.wait();
+                    System.out.println(devicesDiscovered.size() +  " device(s) found");
+                }
+            }catch(Exception e){
+                System.out.println(e);
+            }
+        }
+    }
+    
+    public void printDeviceList(){
+        for(int i = 0; i < _btDeviceList.size();i++){
+            System.out.println(_btDeviceList.get(i));
+        }
+    }
+}
