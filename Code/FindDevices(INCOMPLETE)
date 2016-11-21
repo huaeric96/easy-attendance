@@ -1,0 +1,89 @@
+package testpairdevice2;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Vector;
+import javax.bluetooth.*;
+
+public class PairDevice {
+    
+    public static final Vector devicesDiscovered = new Vector();
+    public ArrayList<BluetoothDevice> _btDeviceList = new ArrayList<>();
+    
+    /**
+     * constructor
+     */
+    public PairDevice(){
+        
+    }
+    
+    public void DiscoverDevices(){
+        final Object inquiryCompletedEvent = new Object();
+        devicesDiscovered.clear();
+        
+        DiscoveryListener listener = new DiscoveryListener(){
+            
+            /**
+             * 
+             * @param btDevice
+             * @param cod 
+             */
+            @Override
+            public void deviceDiscovered(RemoteDevice btDevice, DeviceClass cod){
+                System.out.println("Device " + btDevice.getBluetoothAddress() + " found");
+                devicesDiscovered.addElement(btDevice);
+                try{
+                    System.out.println("     name " + btDevice.getFriendlyName(false));
+                    BluetoothDevice btd = new BluetoothDevice(btDevice.getFriendlyName(false), btDevice.getBluetoothAddress(), btDevice);
+                    _btDeviceList.add(btd);
+                }catch(IOException e){
+                    System.out.println("Can't get Device Name");
+                }
+            }
+            
+            /**
+             * 
+             * @param discType 
+             */
+            @Override
+             public void inquiryCompleted(int discType){
+                System.out.println("Device Inquiry completed!");
+                synchronized(inquiryCompletedEvent){
+                    inquiryCompletedEvent.notifyAll();
+                }
+            }
+             
+            /**
+             * 
+             * @param transID
+             * @param respCode 
+             */
+            @Override
+            public void serviceSearchCompleted(int transID, int respCode){
+                
+            }
+            
+            /**
+             * 
+             * @param transID
+             * @param servRecord 
+             */
+            @Override
+            public void servicesDiscovered(int transID, ServiceRecord[] servRecord){
+                
+            }
+        };
+        synchronized(inquiryCompletedEvent){
+            try{
+                boolean started = LocalDevice.getLocalDevice().getDiscoveryAgent().startInquiry(DiscoveryAgent.GIAC, listener);
+                if (started) {
+                    System.out.println("wait for device inquiry to complete...");
+                    inquiryCompletedEvent.wait();
+                    System.out.println(devicesDiscovered.size() +  " device(s) found");
+                }
+            }catch(Exception e){
+                System.out.println(e);
+            }
+        }
+    }
+}
