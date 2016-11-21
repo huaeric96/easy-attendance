@@ -1,0 +1,31 @@
+package testpairdevice2;
+
+import javax.bluetooth.*;
+
+public class BluetoothDevice {
+    
+    private final String _btDeviceName;
+    private final String _btDeviceAddress;
+    private final RemoteDevice _remoteDevice;
+    
+    /**
+     * constructor
+     * @param name
+     * @param address
+     * @param rd 
+     */
+    public BluetoothDevice(String name, String address, RemoteDevice rd){
+        _btDeviceName = name;
+        _btDeviceAddress = address;
+        _remoteDevice = rd;
+    }
+    
+    /**
+     * toString method for Bluetooth Devices
+     * @return 
+     */
+    @Override
+    public String toString(){
+        return _btDeviceName + "\n" + _btDeviceAddress;
+    }
+}
