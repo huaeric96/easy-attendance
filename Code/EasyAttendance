@@ -28,7 +28,7 @@ public class EasyAttendance extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // load page content
-        Parent root = FXMLLoader.load(getClass().getResource("ClassList.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXML/ClassList.fxml"));
         // assign the content to a scene
         Scene scene = new Scene(root, 350, 250);
         
