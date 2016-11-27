@@ -1,0 +1,109 @@
+/**
+ * This file holds the functionality of the Class List Scene
+ * and is the first controller to ran by the program
+ * @author  Mitchell Kelly Cs 275
+ * @version 1.0, November 2016
+ */ 
+package easyattendance;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+/**
+ *
+ * @author mikelly
+ */
+public class MainFXMLController implements Initializable {
+    
+    @FXML
+    private VBox classVBox; // vertical content on the page
+    @FXML
+    private ListView classListView; // GUI List of openable classes
+    
+    /**
+     * This method is called when an action is called on GUI openSettings Button
+     * and opens settings stage and scene
+     */
+    @FXML
+    private void openSettings() {
+        Parent settingsRoot = null; // page contents
+        
+        try {
+            settingsRoot = FXMLLoader.load(getClass().getResource("ClassSettings.fxml"));
+        
+            Scene settingsScene = new Scene(settingsRoot, 325, 200);
+
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.setScene(settingsScene);
+            popupStage.show();
+        } catch (IOException ex) {
+            System.out.println("Error opening Settings.fxml");
+        }
+    }
+    
+    /**
+     * This method is called when an action is called on GUI openClass button
+     */
+    @FXML
+    private void openClassButtonAction() {
+        this.openClass(classListView.getSelectionModel().getSelectedItem().toString());
+    }
+    
+    /**
+     * This method changes to class scene passed to it from openClassButtonAction
+     * @param className class to be opened
+     */
+    private void openClass(String className) {
+        // page loader
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StudentList.fxml"));
+        fxmlLoader.setControllerFactory(new Callback<Class<?>, Object>() {
+            @Override
+            public Object call(Class<?> controllerClass) {
+                StudentListController controller = new StudentListController(className);
+                return controller;
+                }
+            });
+        try {
+            Parent studentListRoot = fxmlLoader.load();
+
+            //create scene
+            Scene studentListScene = new Scene(studentListRoot, 350, 250);
+            // get reference to the stage
+            Stage primaryStage = (Stage) classVBox.getScene().getWindow();
+            //change the scene
+            primaryStage.setScene(studentListScene);
+        } catch (IOException ex) {
+            System.out.println("Error opening StudentList.fxml");
+        }
+    }
+    
+    /**
+     * Initializes the ClassList controller on page load
+     * @param fxmlFileLocation The location used to resolve relative paths for the root object
+     *            or null if the location is not known
+     * @param resources the resources used to localize the root object
+     *           or null if the root object was not localized
+     */
+    @Override
+    public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+        // array content to be shown on GUI
+        ArrayList<String> classList = ReadFile.getClasses();
+        // Viewable list of array content
+        ObservableList classObservList = FXCollections.observableList(classList);
+        classListView.setItems(classObservList);
+    }
+}
