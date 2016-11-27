@@ -59,7 +59,7 @@ public class StudentListController implements Initializable {
         // get reference to the correct stage
         Stage primaryStage = (Stage) backButton.getScene().getWindow();
         // load content
-        Parent root = FXMLLoader.load(getClass().getResource("ClassList.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("FXML/ClassList.fxml"));
         
         //set content
         Scene classListScene = new Scene(root, 350, 250);
@@ -89,7 +89,7 @@ public class StudentListController implements Initializable {
     @FXML
     private void openRecords() {
         // File loader
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("AttendanceRecords.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXML/AttendanceRecords.fxml"));
         fxmlLoader.setControllerFactory(new Callback<Class<?>, Object>() {
             @Override
             public Object call(Class<?> controllerClass) {
@@ -122,7 +122,7 @@ public class StudentListController implements Initializable {
         // root the content will go into
         Parent settingsRoot = null;
         // content file loader
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StudentSettings.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXML/StudentSettings.fxml"));
         fxmlLoader.setControllerFactory(new Callback<Class<?>, Object>() {
             @Override
             public Object call(Class<?> controllerClass) {
