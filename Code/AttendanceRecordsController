@@ -45,7 +45,7 @@ public class AttendanceRecordsController implements Initializable {
     @FXML
     private void backButtonAction() {
         // page loader
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StudentList.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXML/StudentList.fxml"));
         fxmlLoader.setControllerFactory(new Callback<Class<?>, Object>() {
             @Override
             public Object call(Class<?> controllerClass) {
