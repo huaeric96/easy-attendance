@@ -42,7 +42,7 @@ public class MainFXMLController implements Initializable {
         Parent settingsRoot = null; // page contents
         
         try {
-            settingsRoot = FXMLLoader.load(getClass().getResource("ClassSettings.fxml"));
+            settingsRoot = FXMLLoader.load(getClass().getResource("FXML/ClassSettings.fxml"));
         
             Scene settingsScene = new Scene(settingsRoot, 325, 200);
 
@@ -69,7 +69,7 @@ public class MainFXMLController implements Initializable {
      */
     private void openClass(String className) {
         // page loader
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("StudentList.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXML/StudentList.fxml"));
         fxmlLoader.setControllerFactory(new Callback<Class<?>, Object>() {
             @Override
             public Object call(Class<?> controllerClass) {
