@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane fx:controller="easyattendance.MainFXMLController" 
+<GridPane fx:controller="easyattendance.ClassListController" 
         xmlns:fx="http://javafx.com/fxml" alignment="TOP_LEFT" vgap="10" >
 
     <ToolBar GridPane.columnIndex="0" GridPane.rowIndex="0" minWidth="360" >
