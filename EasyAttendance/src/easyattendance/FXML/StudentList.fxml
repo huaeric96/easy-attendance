@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane fx:controller="easyattendance.StudentListController" 
+        xmlns:fx="http://javafx.com/fxml" alignment="TOP_LEFT" vgap="10" >
+
+    <ToolBar GridPane.columnIndex="0" GridPane.rowIndex="0" minWidth="360" >
+        
+        <Button id="back-button" fx:id="backButton" onAction="#backButtonAction"
+                disable="false" minWidth="40" minHeight="25" >
+            <tooltip> <Tooltip text="Back"/></tooltip>
+        </Button>
+
+        <Button id="records-button" fx:id="recordsButton" text="Records"
+                onAction="#openRecords" disable="false" >
+            <tooltip> <Tooltip text="Stats"/></tooltip>
+        </Button>
+                
+        <Button id="take-roll-button" fx:id="takeRollButton" text="Take Roll"
+                onAction="#takeRoll" disable="false" >
+            <tooltip> <Tooltip text="Take Roll"/></tooltip>
+        </Button>
+        
+        <Button id="settings-button" fx:id="settingsButton"
+                onAction="#openSettings" minWidth="40" minHeight="25" >
+            <tooltip> <Tooltip text="Settings"/></tooltip>
+        </Button>
+    </ToolBar>
+    
+    <Text id="title-text" text="Student List" GridPane.columnIndex="0" GridPane.rowIndex="1"
+        GridPane.columnSpan="2" />
+    
+    <VBox fx:id="studentVBox" GridPane.columnIndex="0" GridPane.rowIndex="2" 
+            spacing="3" >
+        <ListView fx:id="studentListView" />
+    </VBox>
+    
+    <HBox fx:id="attendanceHBox" GridPane.columnIndex="0" GridPane.rowIndex="3" 
+            spacing="3" alignment="CENTER">
+        
+        <Button fx:id="markPresentButton" text="Mark Present"
+                onAction="#markAttendance">
+        </Button>
+        
+        <Button fx:id="markTardyButton" text="Mark Tardy"
+                onAction="#markAttendance">
+        </Button>
+        
+        <Button fx:id="markAbsentButton" text="Mark Absent"
+                onAction="#markAttendance">
+        </Button>
+    </HBox>
+    
+    <stylesheets>
+       <URL value="@stylesheet.css" />
+    </stylesheets>
+    
+</GridPane>

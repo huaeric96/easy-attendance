@@ -1,0 +1,130 @@
+/**
+ * This file holds the functionality of the Class Settings Scene
+ * @author  Mitchell Kelly Cs 275
+ * @version 1.0, November 2016
+ */ 
+package easyattendance;
+
+import java.util.ArrayList;
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+/**
+ * FXML Controller class
+ *
+ * @author mikelly
+ */
+public class ClassSettingsController {
+    @FXML
+    private VBox classOpenVBox; // class vertial content shown once the page is opened
+    @FXML
+    private VBox classSettingsVBox; // class vertical content shown once an action is entered
+    @FXML
+    private TextField classNameInput; // input box for class name
+    @FXML
+    private Text classPrompt; // prompt for incorrect class input
+    @FXML
+    private CheckBox monday; // checkbox for if class meets on Mondays
+    @FXML
+    private CheckBox tuesday; // checkbox for if class meets on Tuesdays
+    @FXML
+    private CheckBox wednesday; // checkbox for if class meets on Wednesdays
+    @FXML
+    private CheckBox thursday; // checkbox for if class meets on Thursdays
+    @FXML
+    private CheckBox friday; // checkbox for if class meets on Fridays
+    @FXML
+    private TextField durationInput; // class duration input
+    @FXML
+    private Slider bufferSlider; // late buffer slider input
+    
+    /**
+     * This method is called when an action is called on GUI load Button
+     * and loads a class' settings
+     */
+    @FXML
+    private void loadClassSettings() {
+        // String class name from GUI
+        String className = classNameInput.getText();
+        // ArrayList of settings from file
+        ArrayList<String> settings = ReadFile.getClassSettings(className);
+        if(settings == null) {
+            classPrompt.setText("Please Enter a Valid Class Name");
+        } else {
+            String[] meetDays = settings.get(0).split(":"); // split meet days
+            if(meetDays[0].equals("true")){
+                monday.setSelected(true);
+            }
+            if(meetDays[1].equals("true")){
+                tuesday.setSelected(true);
+            }
+            if(meetDays[2].equals("true")){
+                wednesday.setSelected(true);
+            }
+            if(meetDays[3].equals("true")){
+                thursday.setSelected(true);
+            }
+            if(meetDays[4].equals("true")){
+                friday.setSelected(true);
+            }
+        }
+        
+        //set buffer value
+        bufferSlider.setValue(Double.parseDouble(settings.get(3)));
+        
+        // once settings are loaded show class settings
+        classOpenVBox.setVisible(false);
+        classSettingsVBox.setVisible(true);
+    }
+    
+    /**
+     * This method is called when an action is called on GUI openSettings Button
+     * and opens an empty class settings page
+     */
+    @FXML
+    private void addClass() {
+        classOpenVBox.setVisible(false);
+        classSettingsVBox.setVisible(true);
+    }
+    
+    /**
+     * This method is called when an action is called on GUI saveSettings Button
+     * and saves the class settings to file
+     */
+    @FXML
+    private void saveClassSettings() {
+        // String class name from GUI
+        String className = classNameInput.getText();
+        
+        // String of class duration from GUI
+        String duration = durationInput.getText();
+        
+        // boolean if class meets on Mondays
+        boolean meetMonday = monday.isSelected();
+        // boolean if class meets on Tuesdays
+        boolean meetTuesday = tuesday.isSelected();
+        // boolean if class meets on Wednesdays
+        boolean meetWednesday = wednesday.isSelected();
+        // boolean if class meets on Thursdays
+        boolean meetThursday = thursday.isSelected();
+        // boolean if class meets on Fridays
+        boolean meetFriday = friday.isSelected();
+        
+        // amount of time a student can show up to class after the bell and not be marked tardy
+        double lateBuffer = bufferSlider.getValue();
+        
+        
+        // Stage to be closed
+        Stage popupStage = new Stage();
+        // get reference to the stage
+        popupStage = (Stage) classOpenVBox.getScene().getWindow();
+        // close the stage
+        popupStage.close();
+        
+        ReadFile.saveClassSettings(className, duration, meetMonday, meetTuesday, 
+            meetWednesday, meetThursday, meetFriday, lateBuffer);
+    }
+}

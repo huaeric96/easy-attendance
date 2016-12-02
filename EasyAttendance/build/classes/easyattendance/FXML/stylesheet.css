@@ -1,0 +1,46 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Nov 5, 2016, 10:55:51 AM
+    Author     : mikelly
+*/
+
+root { 
+    display: block;
+}
+.root {
+    -fx-background-image: url("images/Background.png");
+}
+
+.text {
+   -fx-font-size: 12px;
+   -fx-font-family: "Arial";
+   -fx-fill: #bfbfbf;
+   -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
+}
+
+#title-text {
+   -fx-font-size: 32px;
+   -fx-font-family: "Arial";
+   -fx-fill: #bfbfbf;
+   -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
+}
+
+
+#back-button {
+    -fx-background-image: url("images/BackArrow.png");
+    -fx-background-size: 25px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+#settings-button {
+    -fx-background-image: url("images/Settings.png");
+    -fx-background-size: 25px;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+

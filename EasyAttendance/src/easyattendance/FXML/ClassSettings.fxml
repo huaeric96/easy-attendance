@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="easyattendance.ClassSettingsController"
+        alignment="TOP_LEFT" vgap="10"
+        styleClass="root" >
+    
+    <Text id="title-text" text="Edit Class" GridPane.columnIndex="0"
+            GridPane.rowIndex="0"/>
+
+    <VBox fx:id="classOpenVBox" GridPane.columnIndex="0" GridPane.rowIndex="1" 
+            spacing="3" alignment="CENTER" visible="true" >
+        <HBox fx:id="openHBox" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                spacing="3" >
+            
+            <Label text="Class Name " />
+            <TextField />
+
+            <Button fx:id="addClassButton" text="Add" onAction="#addClass" />
+
+            <Button fx:id="editClassButton" text="Edit" onAction="#loadClassSettings" />
+        </HBox>
+        
+        <Text fx:id="userPrompt"/>
+    </VBox>
+
+    <VBox fx:id="classSettingsVBox"
+            GridPane.columnIndex="0" GridPane.rowIndex="1" spacing="3"
+            alignment="CENTER" visible="false" >
+        
+        <HBox fx:id="attendanceHBox"
+                GridPane.columnIndex="0" GridPane.rowIndex="1"
+                spacing="3">
+
+            <Label text="Class Name " />
+            <TextField fx:id="verifyClassInput" />
+        </HBox>
+        
+        <HBox fx:id="durationHBox" spacing="3">
+            <Label text="Class Duration " />
+            <TextField fx:id="durationInput" />
+        </HBox>
+    
+        <HBox fx:id="checkHBox" GridPane.columnIndex="0" GridPane.rowIndex="2"
+                spacing="3">
+            <Label text="Meet Days   " />
+            <CheckBox text="M" fx:id="monday"/> 
+            <CheckBox text="T" fx:id="tuesday"/> 
+            <CheckBox text="W" fx:id="wednesday" /> 
+            <CheckBox text="Th" fx:id="thursday" /> 
+            <CheckBox text="F" fx:id="friday" />
+        </HBox>
+        
+        <HBox fx:id="sliderHBox" GridPane.columnIndex="0" GridPane.rowIndex="3"
+                spacing="3" >
+            <Label text="Late Buffer " />
+            <Slider  fx:id="bufferSlider" min="0" majorTickUnit="5"  max="30"
+                    showTickMarks="true" showTickLabels="true" snapToPixel="true" />
+        </HBox>
+        
+        <Button fx:id="saveClassButton" text="Save" GridPane.columnIndex="0" 
+                GridPane.rowIndex="4" alignment="CENTER"
+                onAction="#saveClassSettings" />
+        
+    </VBox>
+    
+    <stylesheets>
+       <URL value="@stylesheet.css" />
+    </stylesheets>
+    
+</GridPane>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane xmlns:fx="http://javafx.com/fxml" fx:controller="easyattendance.StudentSettingsController"
+        alignment="TOP_LEFT">
+        
+    <Text id="title-text" text="Edit Student" GridPane.columnIndex="0" 
+            GridPane.rowIndex="0" />
+        
+    <VBox fx:id="studentOpenVBox" GridPane.columnIndex="0" GridPane.rowIndex="1" 
+            spacing="3" alignment="CENTER" visible="true" >
+        <HBox fx:id="openHBox" GridPane.columnIndex="0" GridPane.rowIndex="1"
+                spacing="3" >
+            
+            <Label text="Student Name " />
+            <TextField fx:id="verifyStudentInput"/>
+
+            <Button fx:id="addStudentButton" text="Add" onAction="#addStudent" />
+
+            <Button fx:id="editStudentButton" text="Edit" onAction="#loadStudentSettings" />
+        </HBox>
+        
+        <Text fx:id="studentPrompt"/>
+    </VBox>
+        
+    <VBox fx:id="studentSettingsVBox" spacing="3" GridPane.columnIndex="0"
+            GridPane.rowIndex="1" visible="false" >
+        <HBox fx:id="nameHBox" spacing="3">
+            <Label text="Student Name " />
+            <TextField fx:id="studentNameInput" />
+        </HBox>
+
+        <HBox spacing="3">
+            <Label text="Student ID #    " />
+            <TextField fx:id="studentIDInput"/>
+        </HBox>
+        
+        <HBox spacing="3" alignment="CENTER" >
+        <Button fx:id="pairDeviceButton" text="Pair Device"
+                onAction="#pairDevice"/>
+        </HBox>
+        
+        <ListView fx:id="deviceListView" minWidth="325" />
+
+        <HBox fx:id="buttonHBox" spacing="3" alignment="CENTER" >
+            <Button fx:id="saveStudentButton" text="Save"
+                onAction="#saveStudentSettings"/>
+        </HBox>
+
+    </VBox>
+    
+    <stylesheets>
+       <URL value="@stylesheet.css" />
+    </stylesheets>
+    
+</GridPane>

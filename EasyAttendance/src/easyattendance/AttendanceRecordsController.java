@@ -1,0 +1,128 @@
+/**
+ * This file holds the functionality of the Attendance Records Scene
+ * @author  Mitchell Kelly Cs 275
+ * @version 1.0, November 2016
+ */ 
+package easyattendance;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+import javafx.util.Callback;
+
+/**
+ * FXML Controller class
+ *
+ * @author mikelly
+ */
+public class AttendanceRecordsController implements Initializable {
+    
+    @FXML
+    private Button backButton; // button content to retutn to a previous page
+    @FXML
+    private ListView recordsListView; // GUI list of students and attendance
+    
+    private String _className; // name of the class being represented
+    
+    AttendanceRecordsController(String className){
+        _className = className;
+    }
+    
+    /**
+     * This method is called when an action is called on GUI back Button
+     * and returns the GUI to a previous scene
+     */
+    @FXML
+    private void backButtonAction() {
+        // page loader
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("FXML/StudentList.fxml"));
+        fxmlLoader.setControllerFactory(new Callback<Class<?>, Object>() {
+            @Override
+            public Object call(Class<?> controllerClass) {
+                StudentListController controller = new StudentListController(_className);
+                return controller;
+                }
+        });
+        try {
+        // get reference to the correct stage
+        Stage primaryStage = (Stage) backButton.getScene().getWindow();
+        // load correct content
+        Parent root = fxmlLoader.load();
+        
+        // assign the content to a scene
+        Scene studentListScene = new Scene(root, 350, 250);
+        primaryStage.setScene(studentListScene);
+        
+        } catch (IOException ex) {
+            System.out.println("Error Loading StudentList.fxml");
+        }
+    }
+    
+    /**
+     * Initializes the AttendanceRecords class on page load
+     * @param fxmlFileLocation The location used to resolve relative paths for the root object
+     *            or null if the location is not known
+     * @param resources the resources used to localize the root object
+     *           or null if the root object was not localized
+     */
+    @Override
+    public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
+        // student name
+        String student;
+        // days student was late and days absent seperated by :
+        String attendance;
+        
+        // string for representing student name and attendance records
+        String attendanceLine;
+        
+        // ideal number of spaces between students and attendance strings
+        int numSpaces;
+        // spaces between students and attendance strings
+        String spaces;
+        
+        // list of all of the students in a class
+        ArrayList<String> studentList = ReadFile.getStudents(_className);
+        
+        // array list with students names and attendance records
+        ArrayList<String> attendanceList = new ArrayList();
+        //array for splitting tardy and late day string
+        String[] splitLine;
+        
+        for(int i = 0, arrayLen = studentList.size(); i < arrayLen; i++){
+            student = studentList.get(i);
+            attendance = ReadFile.getAttendance(student, _className);
+            splitLine = attendance.split(":");
+            
+            // length of a students name
+            int studentLen = student.length();
+            
+            numSpaces = 50;
+            spaces = "";
+            
+            numSpaces = numSpaces - studentLen;
+            
+            
+            for(int j = numSpaces; j > 0; j--) {
+                spaces = spaces + " ";
+            }
+            
+            attendanceLine = student + spaces +" Tardy: " + splitLine[0] + " Absent: " + splitLine[1];
+            attendanceList.add(attendanceLine);
+        }
+        
+        // List that will be viewable on AttendanceRecords scene
+        ObservableList recordsObservList = FXCollections.observableList(attendanceList);
+        recordsListView.setItems(recordsObservList);
+    }    
+    
+}
